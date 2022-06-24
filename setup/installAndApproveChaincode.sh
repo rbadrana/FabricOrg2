@@ -92,4 +92,4 @@ checkCommitReadyness() {
     echo "===================== checking commit readyness from org 1 ===================== "
 }
 
-checkCommitReadyness
+#checkCommitReadyness
