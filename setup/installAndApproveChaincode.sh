@@ -1,9 +1,9 @@
 export CORE_PEER_TLS_ENABLED=true
 export ORDERER_CA=${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 export PEER0_ORG2_CA=${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
-export FABRIC_CFG_PATH=${PWD}/../artifacts/channel/nodes-config/
+export FABRIC_CFG_PATH=${PWD}/../artifacts/channel/config/
 
-export CHANNEL_NAME=myorgchannel
+export CHANNEL_NAME=orgchannel
 
 setGlobalsForPeer0Org2() {
     export CORE_PEER_LOCALMSPID="Org2MSP"
@@ -24,17 +24,17 @@ setGlobalsForPeer1Org2() {
 
 presetup() {
     echo Vendoring Go dependencies ...
-    pushd ./../artifacts/chaincode-sources/github.com/orgtmp/go
+    pushd ./../artifacts/src/github.com/orgtmp/go
     GO111MODULE=on go mod vendor
     popd
     echo Finished vendoring Go dependencies
 }
 #presetup
 
-CHANNEL_NAME="myorgchannel"
+CHANNEL_NAME="orgchannel"
 CC_RUNTIME_LANGUAGE="golang"
 VERSION="1"
-CC_SRC_PATH="./../artifacts/chaincode-sources/github.com/orgtmp/go"
+CC_SRC_PATH="./../artifacts/src/github.com/orgtmp/go"
 CC_NAME="orgtmp"
 
 packageChaincode() {
@@ -66,13 +66,13 @@ queryInstalled() {
     echo "===================== Query installed successful on peer0.org2 on channel ===================== "
 }
 
-# queryInstalled
+#queryInstalled
 
 approveForMyOrg2() {
     setGlobalsForPeer0Org2
 
     # Replace localhost with your orderer's vm IP address
-    peer lifecycle chaincode approveformyorg -o 172.105.37.91:7050 \
+    peer lifecycle chaincode approveformyorg -o 172.105.53.63:7050 \
         --ordererTLSHostnameOverride orderer.example.com --tls $CORE_PEER_TLS_ENABLED \
         --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
         --version ${VERSION} --init-required --package-id ${PACKAGE_ID} \
@@ -92,4 +92,4 @@ checkCommitReadyness() {
     echo "===================== checking commit readyness from org 1 ===================== "
 }
 
-#checkCommitReadyness
+checkCommitReadyness

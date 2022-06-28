@@ -1,0 +1,2 @@
+Installed chaincodes on peer:
+Package ID: orgtmp_1:0f9732655acb05494aba3470393a2fda3f48bd85138626eaf2dd3a05eacee1df, Label: orgtmp_1

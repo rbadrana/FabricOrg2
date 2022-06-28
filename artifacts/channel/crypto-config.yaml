@@ -1,0 +1,45 @@
+
+OrdererOrgs:
+  - Name: Orderer
+    Domain: example.com
+    EnableNodeOUs: true
+
+    Specs:
+      - Hostname: orderer
+        SANS:
+            - "localhost"
+            - "127.0.0.1"
+      - Hostname: orderer2
+        SANS:
+          - "localhost"
+          - "127.0.0.1"
+      - Hostname: orderer3
+        SANS:
+            - "localhost"
+            - "127.0.0.1"
+
+PeerOrgs:
+  - Name: Org1
+    Domain: org1.example.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 2  #it means organization have two peers or peer nodes
+      SANS:
+        - "localhost"
+
+    Users:
+      Count: 1    #it means  one user other than admin user(admin is default user)
+
+  - Name: Org2
+    Domain: org2.example.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 2
+      SANS:
+        - "localhost"  #here ip address of org can be provided
+      #  - "peer0.org2.example.com"
+      #  - "172.105.53.112"
+    Users:
+      Count: 1
